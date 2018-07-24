@@ -1,4 +1,4 @@
-## Easy-Cookies
+## Code-Cookies
 :cat:   web端缓存的最新选择   :cat: 
 - [x] 集成Cookies、优化Cookies使用
 - [ ] 集成Session Storage、Local Storage(待开发中)
@@ -8,15 +8,15 @@
 ## 使用说明
 拉取项目
 ```
-npm i easy-cookies -S
+npm i code-cookies -S
 ```
-导入EasyCookies
+导入CodeCookies
 ```
-import EasyCookies from 'easy-cookies'
+import CodeCookies from 'code-cookies'
 ```
-实例化EasyCookies 并传入cookies的keyname值与过期时间(默认7200秒)
+实例化CodeCookies 并传入cookies的keyname值与过期时间(默认7200秒)
 ```
-const Cookies = new EasyCookies('token', 7200)
+const Cookies = new CodeCookies('token', 7200)
 ```
 设置cookies && 获取cookies
 ```

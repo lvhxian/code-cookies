@@ -1,5 +1,5 @@
 {
-  "name": "easy-cookies",
+  "name": "code-cookies",
   "version": "0.0.1",
   "description": "web端缓存接口封装",
   "main": "dist/bundle.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/iTobys/easy-cookies.git"
+    "url": "git+https://github.com/iTobys/code-cookies.git"
   },
   "keywords": [
     "easy-cookies",
@@ -17,9 +17,9 @@
   "author": "itobys",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/iTobys/easy-cookies/issues"
+    "url": "https://github.com/iTobys/code-cookies/issues"
   },
-  "homepage": "https://github.com/iTobys/easy-cookies#readme",
+  "homepage": "https://github.com/iTobys/code-cookies#readme",
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-plugin-external-helpers": "^6.22.0",

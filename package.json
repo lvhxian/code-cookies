@@ -1,0 +1,31 @@
+{
+  "name": "easy-cookies",
+  "version": "0.0.1",
+  "description": "web端缓存接口封装",
+  "main": "dist/bundle.js",
+  "scripts": {
+    "build": "rollup --config config/rollup.config.prod.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iTobys/easy-cookies.git"
+  },
+  "keywords": [
+    "easy-cookies",
+    "EasyCookies"
+  ],
+  "author": "itobys",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iTobys/easy-cookies/issues"
+  },
+  "homepage": "https://github.com/iTobys/easy-cookies#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-latest": "^6.24.1",
+    "rollup-plugin-babel": "^3.0.7",
+    "rollup-plugin-node-resolve": "^3.3.0"
+  }
+}

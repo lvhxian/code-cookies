@@ -18,7 +18,7 @@ import CodeCookies from 'code-cookies'
 ```
 const Cookies = new CodeCookies('token', 7200)
 ```
-设置cookies && 获取cookies
+设置cookies && 获取cookies && 删除Cookies
 ```
 /* 参数二为过期时间，支持传入时间与数值 */
 Cookies.setCookies(123, 7200) /* 实例化keyname作为cookies的key值 */ 
@@ -26,4 +26,7 @@ Cookies.setCookies(123, 7200) /* 实例化keyname作为cookies的key值 */
 
 Cookies.getCookies("token") /* 如不传入默认使用实例化keyname */ 
 /* 123 */ 
+
+Cookies.clearCookies("token") /* 如不传入默认使用实例化keyname */ 
+/* null */ 
 ```

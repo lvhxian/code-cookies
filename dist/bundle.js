@@ -151,18 +151,28 @@ var CodeStorage = function () {
     * 获取session
     * @params name => session的key值
     * @params callback => 使用callback函数获取数据
+    * @params local => 切换成localStorage
     * */
 
 
     createClass(CodeStorage, [{
         key: 'getSession',
         value: function getSession(name, callback) {
+            var local = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
             var keyname = this.keyName; // 默认查询实例化的key
+            var result = void 0;
             if (name !== '') {
                 keyname = name;
             }
-            // 获取session值
-            var result = sessionStorage.getItem(keyname);
+            /*
+            * 获取session值 如localStorage是true则使用localStorage
+            * */
+            if (local) {
+                result = localStorage.getItem(keyname);
+            } else {
+                result = sessionStorage.getItem(keyname);
+            }
             // 如传入回调函数
             if (typeof callback === 'function') {
                 callback && callback(result);
@@ -178,6 +188,8 @@ var CodeStorage = function () {
     }, {
         key: 'setSession',
         value: function setSession(val, name, callback) {
+            var local = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+
             var value = val,
                 keyname = this.keyName;
             // 判断val是否为对象，则转换json字符串
@@ -188,8 +200,15 @@ var CodeStorage = function () {
             if (name !== '') {
                 keyname = name;
             }
-            // 设置session
-            sessionStorage.setItem(keyname, value);
+            /*
+            * 获取session值 如localStorage是true则使用localStorage
+            * */
+            if (local) {
+                localStorage.setItem(keyname, value);
+            } else {
+                sessionStorage.setItem(keyname, value);
+            }
+            // callback回调函数
             if (typeof callback === 'function') {
                 callback && callback();
             }
@@ -202,12 +221,22 @@ var CodeStorage = function () {
     }, {
         key: 'delSession',
         value: function delSession(name, callback) {
+            var local = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
             var keyname = this.keyName; // 默认删除实例化的name
             if (name !== '') {
                 keyname = name;
             }
-            // 移除对应的key
-            sessionStorage.removeItem(name);
+            /*
+            * 获取session值 如localStorage是true则使用localStorage
+            * 移除对应的key
+            * */
+            if (local) {
+                localStorage.removeItem(name);
+            } else {
+                sessionStorage.removeItem(name);
+            }
+            // 回调函数
             if (typeof callback === 'function') {
                 callback && callback();
             }
@@ -221,7 +250,16 @@ var CodeStorage = function () {
     }, {
         key: 'clearSession',
         value: function clearSession(callback) {
-            sessionStorage.clear();
+
+            /*
+            * 获取session值 如localStorage是true则使用localStorage
+            * 移除对应的key
+            * */
+            if (local) {
+                localStorage.clear();
+            } else {
+                sessionStorage.clear();
+            }
             if (typeof callback === 'function') {
                 callback && callback();
             }
@@ -230,5 +268,17 @@ var CodeStorage = function () {
     return CodeStorage;
 }();
 
+/*
+* indexedDb api封装
+* */
+
+var CodeDB = function CodeDB() {
+    var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'code_db';
+    classCallCheck(this, CodeDB);
+
+    this.dbName = name;
+};
+
 exports.CodeStorage = CodeStorage;
+exports.CodeDB = CodeDB;
 exports.default = CodeCookies;

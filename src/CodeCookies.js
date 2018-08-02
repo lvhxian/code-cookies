@@ -1,12 +1,15 @@
-
-// 缓存插件 - CodeCookies
-class CodeCookies {
+/*
+* 缓存插件 - CodeCookies
+* @author itobys
+*
+* */
+class CodeCookies{
     /**
      * 实例化
      * @param {*} name => 实例化时传入设置的缓存key名
      * @param {*} time => 实例化时传入设置缓存过期时间
      */
-    constructor (name = 'easy_cookies', time = 7200) {
+    constructor (name = 'code_cookies', time = 7200) {
         this.runtime = `; max-age=${time}` // 缓存过期时间
         this.keyName = name // cookies名字
     }
@@ -20,7 +23,7 @@ class CodeCookies {
         if (keyName === undefined) {
             keyName = this.keyName
         }
-        // 先查看是否长度足够
+        // 先查看是否有cookies值
         if (document.cookie.length > 0) {
             let startNum = document.cookie.indexOf(keyName + '=') // 开始字符串位置
             // 如果key不为空
@@ -74,6 +77,83 @@ class CodeCookies {
     clearCookies (name) {
         this.setCookies('', -1, { CookiesName: name })
     }
+}
+
+/*
+* localStorage & sessionStorage
+* @params localStorage => 长时间存储在浏览器端
+* @params sessionStorage => 浏览器关闭数据清空
+* */
+export class CodeStorage {
+    constructor(name = "code_storage") {
+        this.keyName = name
+    }
+    /*
+    * 获取session
+    * @params name => session的key值
+    * @params callback => 使用callback函数获取数据
+    * */
+    getSession (name, callback) {
+        let keyname = this.keyName // 默认查询实例化的key
+        if (name !== '') {
+            keyname = name
+        }
+        // 获取session值
+        const result = sessionStorage.getItem(keyname)
+        // 如传入回调函数
+        if (typeof callback === 'function') {
+            callback && callback(result)
+        } else {
+            return result
+        }
+    }
+    /*
+    * 设置session
+    * @params name => session的key值
+    * */
+    setSession (val, name, callback) {
+        let value = val, keyname = this.keyName
+        // 判断val是否为对象，则转换json字符串
+        if (typeof val === 'object') {
+            value = JSON.stringify(value) // 转换数据
+        }
+        // 如有另外传入key值
+        if (name !== '') {
+            keyname = name
+        }
+        // 设置session
+        sessionStorage.setItem(keyname, value)
+        if (typeof callback === 'function') {
+            callback && callback()
+        }
+    }
+    /*
+    * 删除session
+    * @params name => session的key值
+    * */
+    delSession (name, callback) {
+        let keyname = this.keyName // 默认删除实例化的name
+        if (name !== '') {
+            keyname = name
+        }
+        // 移除对应的key
+        sessionStorage.removeItem(name)
+        if (typeof callback === 'function') {
+            callback && callback()
+        }
+    }
+
+    /*
+    * 清空session
+    * @params name => session的key值
+    * */
+    clearSession (callback) {
+        sessionStorage.clear()
+        if (typeof callback === 'function') {
+            callback && callback()
+        }
+    }
+
 }
 
 export default CodeCookies

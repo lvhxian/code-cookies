@@ -1,6 +1,6 @@
 {
   "name": "code-cookies",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "description": "web端缓存接口封装",
   "main": "dist/bundle.js",
   "scripts": {
@@ -11,8 +11,8 @@
     "url": "git+https://github.com/iTobys/code-cookies.git"
   },
   "keywords": [
-    "easy-cookies",
-    "EasyCookies"
+    "code-cookies",
+    "CodeCookies"
   ],
   "author": "itobys",
   "license": "ISC",

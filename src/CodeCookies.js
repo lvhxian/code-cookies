@@ -92,14 +92,22 @@ export class CodeStorage {
     * 获取session
     * @params name => session的key值
     * @params callback => 使用callback函数获取数据
+    * @params local => 切换成localStorage
     * */
-    getSession (name, callback) {
+    getSession (name, callback, local = false) {
         let keyname = this.keyName // 默认查询实例化的key
+        let result
         if (name !== '') {
             keyname = name
         }
-        // 获取session值
-        const result = sessionStorage.getItem(keyname)
+        /*
+        * 获取session值 如localStorage是true则使用localStorage
+        * */
+        if (local) {
+            result = localStorage.getItem(keyname)
+        } else {
+            result = sessionStorage.getItem(keyname)
+        }
         // 如传入回调函数
         if (typeof callback === 'function') {
             callback && callback(result)
@@ -111,7 +119,7 @@ export class CodeStorage {
     * 设置session
     * @params name => session的key值
     * */
-    setSession (val, name, callback) {
+    setSession (val, name, callback, local = false) {
         let value = val, keyname = this.keyName
         // 判断val是否为对象，则转换json字符串
         if (typeof val === 'object') {
@@ -121,8 +129,15 @@ export class CodeStorage {
         if (name !== '') {
             keyname = name
         }
-        // 设置session
-        sessionStorage.setItem(keyname, value)
+        /*
+        * 获取session值 如localStorage是true则使用localStorage
+        * */
+        if (local) {
+            localStorage.setItem(keyname, value)
+        } else {
+            sessionStorage.setItem(keyname, value)
+        }
+        // callback回调函数
         if (typeof callback === 'function') {
             callback && callback()
         }
@@ -131,13 +146,21 @@ export class CodeStorage {
     * 删除session
     * @params name => session的key值
     * */
-    delSession (name, callback) {
+    delSession (name, callback, local = false) {
         let keyname = this.keyName // 默认删除实例化的name
         if (name !== '') {
             keyname = name
         }
-        // 移除对应的key
-        sessionStorage.removeItem(name)
+        /*
+        * 获取session值 如localStorage是true则使用localStorage
+        * 移除对应的key
+        * */
+        if (local) {
+            localStorage.removeItem(name)
+        } else {
+            sessionStorage.removeItem(name)
+        }
+        // 回调函数
         if (typeof callback === 'function') {
             callback && callback()
         }
@@ -147,13 +170,30 @@ export class CodeStorage {
     * 清空session
     * @params name => session的key值
     * */
-    clearSession (callback) {
-        sessionStorage.clear()
+    clearSession (callback, loal = false) {
+        /*
+        * 获取session值 如localStorage是true则使用localStorage
+        * 移除对应的key
+        * */
+        if (local) {
+            localStorage.clear()
+        } else {
+            sessionStorage.clear()
+        }
         if (typeof callback === 'function') {
             callback && callback()
         }
     }
+}
 
+/*
+* indexedDb api封装
+* */
+
+export class CodeDB {
+    constructor (name = 'code_db') {
+        this.dbName = name
+    }
 }
 
 export default CodeCookies

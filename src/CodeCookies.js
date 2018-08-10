@@ -84,7 +84,7 @@ class CodeCookies{
 * @params localStorage => 长时间存储在浏览器端
 * @params sessionStorage => 浏览器关闭数据清空
 * */
- class CodeStorage {
+export class CodeStorage {
     constructor(name = "code_storage") {
         this.keyName = name
     }
@@ -192,7 +192,7 @@ class CodeCookies{
 * @params version => 数据库版本
 * */
 
- class CodeDB {
+export class CodeDB {
     constructor (name = 'code_db', version = 1) {
         this.dbName = name || "code_db"
         this.version = version

@@ -1,5 +1,7 @@
 'use strict';
 
+Object.defineProperty(exports, '__esModule', { value: true });
+
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
   return typeof obj;
 } : function (obj) {
@@ -459,4 +461,6 @@ var CodeDB = function () {
     return CodeDB;
 }();
 
-module.exports = CodeCookies;
+exports.CodeStorage = CodeStorage;
+exports.CodeDB = CodeDB;
+exports.default = CodeCookies;

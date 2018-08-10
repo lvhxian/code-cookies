@@ -1,6 +1,6 @@
 {
   "name": "code-cookies",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "web端缓存接口封装",
   "main": "dist/bundle.js",
   "scripts": {

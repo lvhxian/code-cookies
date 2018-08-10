@@ -2,7 +2,7 @@
 :cat:   web端缓存的最新选择   :cat: 
 - [x] 集成Cookies、优化Cookies使用 :tada:
 - [x] 集成Session Storage、Local Storage :tada:
-- [ ] 集成IndexedDB（待开发中）
+- [x] 集成IndexedDB :tada:（文档编辑中） 
 
 
 ## 使用说明

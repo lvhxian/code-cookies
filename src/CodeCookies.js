@@ -84,7 +84,7 @@ class CodeCookies{
 * @params localStorage => 长时间存储在浏览器端
 * @params sessionStorage => 浏览器关闭数据清空
 * */
-export class CodeStorage {
+ class CodeStorage {
     constructor(name = "code_storage") {
         this.keyName = name
     }
@@ -188,11 +188,171 @@ export class CodeStorage {
 
 /*
 * indexedDb api封装
+* @params name => 数据库名
+* @params version => 数据库版本
 * */
 
-export class CodeDB {
-    constructor (name = 'code_db') {
-        this.dbName = name
+ class CodeDB {
+    constructor (name = 'code_db', version = 1) {
+        this.dbName = name || "code_db"
+        this.version = version
+        this.isOpenDB = false
+        this.opendb
+        this.idbRequest = ""
+    }
+     /*
+     * 打开indexedDB数据库
+     * @params name => 数据表名
+     * @params key => 数据表主键
+     * @params createStore => 数据库表字段
+     * */
+    openDb (name, key = "id", createStore) {
+        // 阻止数据库多次打开
+        if (this.isOpenDB) {
+            console.warn("数据库已经开启，切勿频繁打开")
+            return
+        }
+        // 判断是否第一次触发打开数据库
+        if (!this.opendb) {
+            this.opendb = indexedDB.open(this.dbName, this.version) // 打开indexed数据库
+        }
+        // 第一次新建数据库 & 数据库版本发生变化的时候
+        this.opendb.onupgradeneeded = (event) => {
+            const res = event.target
+            this.isOpenDB = true // 设置入口开启
+            if (res.readyState === "done") {
+                this.idbRequest = res.result // 把数据库资源放入初始化变量中
+                // 判断当前数据库实例是否已经存在当前表，若无则创建表
+                if (!this.idbRequest.objectStoreNames.contains(name)) {
+                    const setStore = this.idbRequest.createObjectStore(name, {keyPath: key}) // 创建表
+                    // 遍历创建字段
+                    createStore.forEach((item) => {
+                        setStore.createIndex(item.name, item.name, {unique : item.isUnique})
+                    })
+                }
+                console.log("数据库更新成功")
+            }
+        }
+
+        // 监听是否开启成功
+        this.opendb.onsuccess = (event) => {
+            const res = event.target
+            this.isOpenDB = true // 设置入口开启
+            if (res.readyState === "done") {
+                this.idbRequest = res.result // 把数据库资源放入初始化变量中
+                console.log("数据库打开成功")
+            }
+        }
+
+        // 监听开启失败
+        this.opendb.onerror = () => {
+            console.error("数据库异常，请刷新浏览器重试")
+        }
+    }
+
+     /*
+     * 新增indexedDB 表 数据
+     * @params name => 数据表名
+     * @params value => 数据源
+     * */
+    setStore(name, value) {
+        // 确保数据库版本一致
+        if (this.version === this.idbRequest.version) {
+            const request = this.idbRequest.transaction([name], "readwrite").objectStore(name)
+                .add(value)
+
+            // 写入成功
+            request.onsuccess = (event) => {
+                console.log('写入成功')
+            }
+
+            // 写入失败
+            request.onerror = (event) => {
+                if (event.isTrusted) {
+                    console.error("写入失败: 已经存在数据")
+                } else {
+                    throw new Error(event)
+                }
+            }
+        }
+    }
+
+     /*
+      * 更新indexedDB 表 数据
+      * @params name => 数据表名
+      * @params value => 数据源
+      * */
+     putStore(name, value) {
+         // 确保数据库版本一致
+         if (this.version === this.idbRequest.version) {
+             const request = this.idbRequest.transaction([name], "readwrite").objectStore(name)
+                 .put(value)
+
+             // 写入成功
+             request.onsuccess = (event) => {
+                 console.log('更新成功')
+             }
+
+             // 写入失败
+             request.onerror = (event) => {
+                 if (event.isTrusted) {
+                     console.error("更新失败: 已经存在数据")
+                 } else {
+                     throw new Error(event)
+                 }
+             }
+         }
+     }
+
+     /*
+     * 读取indexedDB 表 指定数据
+     * @params name => 数据表名
+     * @params key => 主键值
+     * */
+    getStoreItem(name, key) {
+        // 确保数据库版本一致
+        if (this.version === this.idbRequest.version) {
+            let dataResult = '' // 接收数据
+            const request = this.idbRequest.transaction([name]).objectStore(name)
+                .get(key)
+
+            return new Promise((resolve, reject) => {
+                // 读取成功
+                request.onsuccess = (event) => {
+                    console.log('读取成功')
+                    dataResult = event.target.result // 获取数据并且写入变量
+                    resolve(dataResult)
+                }
+
+                // 读取失败
+                request.onerror = (event) => {
+                    if (event.isTrusted) {
+                        console.error("读取失败: 数据不存在")
+                    } else {
+                        reject(new Error(event))
+                    }
+                }
+            })
+        }
+    }
+
+     /*
+      * 删除indexedDB 表 指定数据
+      * @params name => 数据表名
+      * @params key => 主键值
+      * */
+    removeStoreItem (name, key) {
+        if (this.version === this.idbRequest.version) {
+            const request = this.idbRequest.transaction([name], 'readwrite').objectStore(name)
+                .delete(key)
+
+            return new Promise((resolve, reject) => {
+                // 读取成功
+                request.onsuccess = (event) => {
+                    resolve('删除成功')
+                }
+            })
+        }
     }
 }
 

@@ -1,2 +1,0 @@
-# SessionStorage API
-

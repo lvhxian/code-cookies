@@ -1,10 +1,10 @@
 {
   "name": "code-cookies",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "web端缓存接口封装",
   "main": "dist/bundle.js",
   "scripts": {
-    "build": "rollup --config config/rollup.config.prod.js"
+    "build": "gulp --gulpfile config/gulpfile.js"
   },
   "repository": {
     "type": "git",
@@ -22,10 +22,15 @@
   "homepage": "https://github.com/iTobys/code-cookies#readme",
   "devDependencies": {
     "babel-core": "^6.26.3",
-    "babel-plugin-external-helpers": "^6.22.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-latest": "^6.24.1",
-    "rollup-plugin-babel": "^3.0.7",
-    "rollup-plugin-node-resolve": "^3.3.0"
+    "babel-preset-es2015": "^6.24.1",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^7.0.1",
+    "gulp-clean": "^0.4.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-minify": "^3.1.0",
+    "gulp-notify": "^3.2.0",
+    "gulp-rename": "^1.4.0",
+    "gulp-uglify": "^3.0.1",
+    "minimatch": "^3.0.4"
   }
 }

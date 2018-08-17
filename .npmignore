@@ -1,0 +1,8 @@
+docs/
+src/
+static/
+config/
+.gitignore
+.idea/
+README.md
+LICENSE
